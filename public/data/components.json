@@ -1,0 +1,802 @@
+{
+  "mainToSub": {
+    "DateField": [
+      "DateField",
+      "DateSegment",
+      "Datelnput",
+      "Description",
+      "FieldError",
+      "Message",
+      "Label",
+      "Text"
+    ],
+    "Calendar": [
+      "Button",
+      "Calendar",
+      "CalendarCell",
+      "CalendarGrid",
+      "CalendarGridBody",
+      "CalendarGridHeader",
+      "CalendarHeaderCell",
+      "Description",
+      "Heading",
+      "Text"
+    ],
+    "DatePicker": [
+      "Button",
+      "Calendar",
+      "CalendarCell",
+      "CalendarGrid",
+      "CalendarGridBody",
+      "CalendarGridHeader",
+      "CalendarHeaderCell",
+      "DatePicker",
+      "DateSegment",
+      "Datelnput",
+      "Description",
+      "Dialog",
+      "FieldError",
+      "Message",
+      "Group",
+      "Label",
+      "Popover",
+      "Text"
+    ],
+    "DateRangePicker": [
+      "Button",
+      "CalendarCell",
+      "CalendarGrid",
+      "CalendarGridBody",
+      "CalendarGridHeader",
+      "CalendarHeaderCell",
+      "DateRangePicker",
+      "DateSegment",
+      "Datelnput",
+      "Description",
+      "Dialog",
+      "FieldError",
+      "Message",
+      "Group",
+      "Label",
+      "Popover",
+      "RangeCalendar",
+      "Text"
+    ],
+    "RangeCalendar": [
+      "Button",
+      "CalendarCell",
+      "CalendarGrid",
+      "CalendarGridBody",
+      "CalendarGridHeader",
+      "CalendarHeaderCell",
+      "Description",
+      "Message",
+      "Heading",
+      "RangeCalendar",
+      "Text"
+    ],
+    "TimeField": [
+      "DateSegment",
+      "Datelnput",
+      "Description",
+      "FieldError",
+      "Message",
+      "Label",
+      "LabelledGroup",
+      "TimeField"
+    ],
+    "Checkbox": [
+      "Checkbox"
+    ],
+    "CheckboxGroup": [
+      "Checkbox",
+      "CheckboxGroup",
+      "Description",
+      "FieldError",
+      "Message",
+      "LabelledGroup",
+      "Text"
+    ],
+    "Form": [
+      "Form"
+    ],
+    "Text": [
+      "Text"
+    ],
+    "Description": [
+      "Text"
+    ],
+    "Message": [
+      "Text"
+    ],
+    "FieldError": [
+      "FieldError"
+    ],
+    "NumberField": [
+      "Button",
+      "Description",
+      "FieldError",
+      "Message",
+      "Group",
+      "Input",
+      "Label",
+      "NumberField",
+      "Text"
+    ],
+    "RadioGroup": [
+      "Description",
+      "FieldError",
+      "Message",
+      "Radio",
+      "RadioGroup",
+      "Text"
+    ],
+    "SearchField": [
+      "Button",
+      "Description",
+      "FieldError",
+      "Message",
+      "Input",
+      "Label",
+      "SearchField"
+    ],
+    "Slider": [
+      "Description",
+      "Message",
+      "Label",
+      "Slider",
+      "SliderOutput",
+      "SliderThumb",
+      "SliderTrack"
+    ],
+    "TextField": [
+      "Description",
+      "FieldError",
+      "Message",
+      "Input",
+      "InputGroup",
+      "Label",
+      "LabelledGroup",
+      "Text",
+      "TextField"
+    ],
+    "TextArea": [
+      "Description",
+      "FieldError",
+      "Message",
+      "Label",
+      "Text",
+      "TextArea",
+      "TextField"
+    ],
+    "Select": [
+      "Button",
+      "Description",
+      "FieldError",
+      "Message",
+      "Header",
+      "Label",
+      "ListBox",
+      "ListBoxSection",
+      "ListBoxltem",
+      "Popover",
+      "Select",
+      "SelectValue",
+      "Separator",
+      "Text"
+    ],
+    "ListBox": [
+      "Header",
+      "ListBox",
+      "ListBoxLoadMoreltem",
+      "ListBoxSection",
+      "ListBoxltem",
+      "Separator",
+      "Text"
+    ],
+    "Switch": [
+      "LabelledGroup",
+      "Switch"
+    ],
+    "ToggleButton": [
+      "ToggleButton"
+    ],
+    "ToggleButtonGroup": [
+      "ToggleButton",
+      "ToggleButtonGroup"
+    ],
+    "Button": [
+      "Button"
+    ],
+    "FileTrigger": [
+      "Button",
+      "FileTrigger"
+    ],
+    "DropZone": [
+      "DropZone",
+      "FileTrigger",
+      "Text"
+    ],
+    "GridList": [
+      "GridList",
+      "GridListHeader",
+      "GridListLoadMoreltem",
+      "GridListSection",
+      "GridListltem"
+    ],
+    "Menu": [
+      "Button",
+      "Description",
+      "Header",
+      "Menu",
+      "MenuSection",
+      "MenuTrigger",
+      "Menultem",
+      "Popover",
+      "Separator",
+      "SubmenuTrigger",
+      "Text"
+    ],
+    "Table": [
+      "Button",
+      "Cell",
+      "Checkbox",
+      "Column",
+      "ColumnResizer",
+      "ResizableTableContainer",
+      "Row",
+      "Table",
+      "TableBody",
+      "TableHeader",
+      "TableLoadMoreltem"
+    ],
+    "TagGroup": [
+      "Label",
+      "LabelledGroup",
+      "Tag",
+      "TagGroup",
+      "TagList",
+      "Text"
+    ],
+    "Virtualizer": [
+      "Virtualizer"
+    ],
+    "Tree": [
+      "Tree",
+      "TreeLoadMoreltem",
+      "Treeltem",
+      "TreeltemContent"
+    ],
+    "Breadcrumbs": [
+      "Breadcrumb",
+      "Breadcrumbs",
+      "Link"
+    ],
+    "Disclosure": [
+      "Button",
+      "Disclosure",
+      "DisclosureGroup",
+      "DisclosurePanel"
+    ],
+    "Link": [
+      "Link"
+    ],
+    "Tabs": [
+      "Tab",
+      "TabList",
+      "TabPanel",
+      "Tabs"
+    ],
+    "Dialog": [
+      "Button",
+      "Dialog",
+      "DialogTrigger",
+      "Heading"
+    ],
+    "Modal": [
+      "Button",
+      "Dialog",
+      "DialogTrigger",
+      "Heading",
+      "Modal",
+      "ModalOverlay"
+    ],
+    "Popover": [
+      "OverlayArrow",
+      "Popover"
+    ],
+    "Tooltip": [
+      "Button",
+      "Tooltip",
+      "TooltipTrigger"
+    ],
+    "Autocomplete": [
+      "Autocomplete",
+      "Button",
+      "Label",
+      "ListBox",
+      "Menu",
+      "MenuItem",
+      "SearchField"
+    ],
+    "ComboBox": [
+      "ComboBox",
+      "Label"
+    ],
+    "Meter": [
+      "Label",
+      "Meter"
+    ],
+    "ProgressBar": [
+      "Label",
+      "ProgressBar"
+    ],
+    "Toast": [
+      "Toast"
+    ],
+    "Group": [
+      "Group"
+    ],
+    "Toolbar": [
+      "Separator",
+      "Toolbar"
+    ]
+  },
+  "subToMains": {
+    "DateField": [
+      "DateField"
+    ],
+    "DateSegment": [
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "TimeField"
+    ],
+    "Datelnput": [
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "TimeField"
+    ],
+    "Description": [
+      "Calendar",
+      "CheckboxGroup",
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "Menu",
+      "NumberField",
+      "RadioGroup",
+      "RangeCalendar",
+      "SearchField",
+      "Select",
+      "Slider",
+      "TextArea",
+      "TextField",
+      "TimeField"
+    ],
+    "FieldError": [
+      "CheckboxGroup",
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "FieldError",
+      "NumberField",
+      "RadioGroup",
+      "SearchField",
+      "Select",
+      "TextArea",
+      "TextField",
+      "TimeField"
+    ],
+    "Message": [
+      "CheckboxGroup",
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "NumberField",
+      "RadioGroup",
+      "RangeCalendar",
+      "SearchField",
+      "Select",
+      "Slider",
+      "TextArea",
+      "TextField",
+      "TimeField"
+    ],
+    "Label": [
+      "Autocomplete",
+      "ComboBox",
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "Meter",
+      "NumberField",
+      "ProgressBar",
+      "SearchField",
+      "Select",
+      "Slider",
+      "Spinner",
+      "TagGroup",
+      "TextArea",
+      "TextField",
+      "TimeField"
+    ],
+    "Text": [
+      "Calendar",
+      "CheckboxGroup",
+      "DateField",
+      "DatePicker",
+      "DateRangePicker",
+      "Description",
+      "DropZone",
+      "Message",
+      "ListBox",
+      "Menu",
+      "NumberField",
+      "RadioGroup",
+      "RangeCalendar",
+      "Select",
+      "TagGroup",
+      "Text",
+      "TextArea",
+      "TextField"
+    ],
+    "Button": [
+      "Disclosure",
+      "Autocomplete",
+      "Button",
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "Dialog",
+      "FileTrigger",
+      "Menu",
+      "Modal",
+      "NumberField",
+      "RangeCalendar",
+      "SearchField",
+      "Select",
+      "Table",
+      "Tooltip"
+    ],
+    "Calendar": [
+      "Calendar",
+      "DatePicker"
+    ],
+    "CalendarCell": [
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "CalendarGrid": [
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "CalendarGridBody": [
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "CalendarGridHeader": [
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "CalendarHeaderCell": [
+      "Calendar",
+      "DatePicker",
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "Heading": [
+      "Calendar",
+      "Dialog",
+      "Modal",
+      "RangeCalendar"
+    ],
+    "DatePicker": [
+      "DatePicker"
+    ],
+    "Dialog": [
+      "DatePicker",
+      "DateRangePicker",
+      "Dialog",
+      "Modal"
+    ],
+    "Group": [
+      "DatePicker",
+      "DateRangePicker",
+      "Group",
+      "NumberField"
+    ],
+    "Popover": [
+      "DatePicker",
+      "DateRangePicker",
+      "Menu",
+      "Popover",
+      "Select"
+    ],
+    "DateRangePicker": [
+      "DateRangePicker"
+    ],
+    "RangeCalendar": [
+      "DateRangePicker",
+      "RangeCalendar"
+    ],
+    "LabelledGroup": [
+      "CheckboxGroup",
+      "Switch",
+      "TagGroup",
+      "TextField",
+      "TimeField"
+    ],
+    "TimeField": [
+      "TimeField"
+    ],
+    "Checkbox": [
+      "Checkbox",
+      "CheckboxGroup",
+      "Table"
+    ],
+    "CheckboxGroup": [
+      "CheckboxGroup"
+    ],
+    "Form": [
+      "Form"
+    ],
+    "Input": [
+      "NumberField",
+      "SearchField",
+      "TextField"
+    ],
+    "NumberField": [
+      "NumberField"
+    ],
+    "Radio": [
+      "RadioGroup"
+    ],
+    "RadioGroup": [
+      "RadioGroup"
+    ],
+    "SearchField": [
+      "Autocomplete",
+      "SearchField"
+    ],
+    "Slider": [
+      "Slider"
+    ],
+    "SliderOutput": [
+      "Slider"
+    ],
+    "SliderThumb": [
+      "Slider"
+    ],
+    "SliderTrack": [
+      "Slider"
+    ],
+    "InputGroup": [
+      "TextField"
+    ],
+    "TextField": [
+      "TextArea",
+      "TextField"
+    ],
+    "TextArea": [
+      "TextArea"
+    ],
+    "Header": [
+      "ListBox",
+      "Menu",
+      "Select"
+    ],
+    "ListBox": [
+      "Autocomplete",
+      "ListBox",
+      "Select"
+    ],
+    "ListBoxSection": [
+      "ListBox",
+      "Select"
+    ],
+    "ListBoxltem": [
+      "ListBox",
+      "Select"
+    ],
+    "Select": [
+      "Select"
+    ],
+    "SelectValue": [
+      "Select"
+    ],
+    "Separator": [
+      "ListBox",
+      "Menu",
+      "Select",
+      "Toolbar"
+    ],
+    "ListBoxLoadMoreltem": [
+      "ListBox"
+    ],
+    "Switch": [
+      "Switch"
+    ],
+    "ToggleButton": [
+      "ToggleButton",
+      "ToggleButtonGroup"
+    ],
+    "ToggleButtonGroup": [
+      "ToggleButtonGroup"
+    ],
+    "FileTrigger": [
+      "DropZone",
+      "FileTrigger"
+    ],
+    "DropZone": [
+      "DropZone"
+    ],
+    "GridList": [
+      "GridList"
+    ],
+    "GridListHeader": [
+      "GridList"
+    ],
+    "GridListLoadMoreltem": [
+      "GridList"
+    ],
+    "GridListSection": [
+      "GridList"
+    ],
+    "GridListltem": [
+      "GridList"
+    ],
+    "Menu": [
+      "Autocomplete",
+      "Menu"
+    ],
+    "MenuSection": [
+      "Menu"
+    ],
+    "MenuTrigger": [
+      "Menu"
+    ],
+    "Menultem": [
+      "Menu"
+    ],
+    "SubmenuTrigger": [
+      "Menu"
+    ],
+    "Cell": [
+      "Table"
+    ],
+    "Column": [
+      "Table"
+    ],
+    "ColumnResizer": [
+      "Table"
+    ],
+    "ResizableTableContainer": [
+      "Table"
+    ],
+    "Row": [
+      "Table"
+    ],
+    "Table": [
+      "Table"
+    ],
+    "TableBody": [
+      "Table"
+    ],
+    "TableHeader": [
+      "Table"
+    ],
+    "TableLoadMoreltem": [
+      "Table"
+    ],
+    "Tag": [
+      "TagGroup"
+    ],
+    "TagGroup": [
+      "TagGroup"
+    ],
+    "TagList": [
+      "TagGroup"
+    ],
+    "Virtualizer": [
+      "Virtualizer"
+    ],
+    "Tree": [
+      "Tree"
+    ],
+    "TreeLoadMoreltem": [
+      "Tree"
+    ],
+    "Treeltem": [
+      "Tree"
+    ],
+    "TreeltemContent": [
+      "Tree"
+    ],
+    "Breadcrumb": [
+      "Breadcrumbs"
+    ],
+    "Breadcrumbs": [
+      "Breadcrumbs"
+    ],
+    "Link": [
+      "Breadcrumbs",
+      "Link"
+    ],
+    "Disclosure": [
+      "Disclosure"
+    ],
+    "DisclosureGroup": [
+      "Disclosure"
+    ],
+    "DisclosurePanel": [
+      "Disclosure"
+    ],
+    "Tab": [
+      "Tabs"
+    ],
+    "TabList": [
+      "Tabs"
+    ],
+    "TabPanel": [
+      "Tabs"
+    ],
+    "Tabs": [
+      "Tabs"
+    ],
+    "DialogTrigger": [
+      "Dialog",
+      "Modal"
+    ],
+    "Modal": [
+      "Modal"
+    ],
+    "ModalOverlay": [
+      "Modal"
+    ],
+    "OverlayArrow": [
+      "Popover"
+    ],
+    "Tooltip": [
+      "Tooltip"
+    ],
+    "TooltipTrigger": [
+      "Tooltip"
+    ],
+    "Autocomplete": [
+      "Autocomplete"
+    ],
+    "MenuItem": [
+      "Autocomplete"
+    ],
+    "ComboBox": [
+      "ComboBox"
+    ],
+    "Bar": [
+      "Meter",
+      "ProgressBar"
+    ],
+    "Meter": [
+      "Meter"
+    ],
+    "ProgressBar": [
+      "ProgressBar",
+      "Spinner"
+    ],
+    "Toast": [
+      "Toast"
+    ],
+    "Toolbar": [
+      "Toolbar"
+    ]
+  }
+}
