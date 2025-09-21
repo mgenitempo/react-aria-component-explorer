@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>React Aria Component Explorer — Single Sheet (v9 external-link icon)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<style>
+  :root[data-theme="light"] {
+    --bg: #ffffff;
+    --panel: #F4F9FD;
+    --muted: #355A86;
+    --text: #001D44;
+    --accent: #0047AA;
+    --accent-2: #0047AA;
+    --chip: #E4F7FF;
+    --panel-border: #BEE4FF;
+    --control-border: #0047AA;
+    --ring: #0047AA;
+    --shadow: 0 6px 20px rgba(0, 29, 68, .10);
+    --custom-bg: #FFDFDF;
+    --custom-border: #ffcaca;
+    --custom-text: #001D44;
+    --icon-blue: #0047AA;
+    --link: #0047AA;
+    --link-hover: #003b8f;
+    --pippin-fixed: #FFDFDF;
+    --cobalt-fixed: #0047AA;
+  }
+  :root[data-theme="dark"] {
+    --bg: #001D44;
+    --panel: #051a37;
+    --muted: #9cc2f2;
+    --text: #ffffff;
+    --accent: #E4F7FF;
+    --accent-2: #E4F7FF;
+    --chip: #0b2b54;
+    --panel-border: #0f3a72;
+    --control-border: #E4F7FF;
+    --ring: #E4F7FF;
+    --shadow: 0 6px 20px rgba(0,0,0,.35);
+    --custom-bg: #3c2430;
+    --custom-border: #8a4e4e;
+    --custom-text: #fff;
+    --icon-blue: #E4F7FF;
+    --link: #E4F7FF;
+    --link-hover: #bfeeff;
+    --pippin-fixed: #FFDFDF;
+    --cobalt-fixed: #0047AA;
+  }
+
+  html, body { background: var(--bg); color: var(--text); margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; line-height: 1.5; }
+  a { color: var(--link); }
+  a:hover { color: var(--link-hover); }
+
+  .skip-link { position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
+  .skip-link:focus { left: 12px; top: 12px; width:auto; height:auto; padding: 10px 12px; background: var(--chip); border: 2px solid var(--control-border); border-radius: 10px; z-index:9999; }
+
+  header.hero { padding: 20px; background: linear-gradient(180deg, var(--bg) 0%, var(--panel) 100%); border-bottom: 1px solid var(--panel-border); display:flex; align-items:center; gap:16px; justify-content:space-between; }
+  .hero h1 { font-size: clamp(1.6rem, 2.2vw, 2.2rem); margin: 0; }
+  .hero p { margin: 0; color: var(--muted); max-width: 80ch; }
+  .theme-toggle { display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; background: var(--chip); border: 2px solid var(--control-border); color: var(--text); cursor:pointer; min-height:44px; min-width:44px; }
+  .theme-toggle .icon { width:20px; height:20px; display:inline-flex; transition: transform .28s ease, opacity .28s ease; }
+  .theme-toggle.flipping .icon { transform: rotate(180deg) scale(.85); opacity: .6; }
+  .theme-toggle .label { font-weight: 600; }
+  .container { display: grid; grid-template-columns: 340px 1fr; gap: 20px; padding: 20px; align-items: start; }
+  @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+
+  .left, .right { background: var(--panel); border: 1px solid var(--panel-border); border-radius: 14px; padding: 14px; box-shadow: var(--shadow); }
+  .search { margin-bottom: 10px; position: relative; }
+  .search input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 2px solid var(--control-border); background: var(--bg); color: var(--text); min-height:44px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; max-height: 70vh; overflow: auto; padding-right: 4px; }
+  .comp-btn { background: var(--chip); border: 2px solid var(--control-border); border-radius: 12px; padding: 12px; cursor: pointer; text-align: left; transition: transform .06s ease, box-shadow .2s; min-height: 56px; }
+  .comp-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+  .comp-btn:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+  .comp-btn[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--accent), var(--shadow); }
+  .comp-btn.custom { background: var(--custom-bg); border-color: var(--custom-border); }
+  .comp-btn.custom strong { color: var(--custom-text); }
+  .legend { display:flex; gap:10px; align-items:center; color: var(--muted); font-size: .95rem; margin-bottom: 8px; }
+  .swatch { width:14px; height:14px; border-radius:4px; border:2px solid var(--control-border); }
+  .swatch.custom { background: var(--custom-bg); border-color: var(--custom-border); }
+  .swatch.std { background: var(--chip); }
+
+  h2 { font-size: 1.1rem; margin: 4px 0 8px; }
+  .right .panel { background: var(--bg); border: 1px solid var(--panel-border); border-radius: 12px; padding: 10px; }
+  .right .panel + .panel { margin-top: 12px; }
+  .small { color: var(--muted); font-size: 1rem; }
+
+  dialog.popover { display:none; position: fixed; inset: 0; background: rgba(0, 0, 0, .35); }
+  :root[data-theme="dark"] dialog.popover { background: rgba(0, 0, 0, .55); }
+  dialog.popover[open] { display: grid; place-items: center; }
+  .card { width: min(860px, 92vw); max-height: 82vh; overflow: auto; background: var(--bg); border: 2px solid var(--control-border); border-radius: 14px; box-shadow: var(--shadow); }
+  .card header { display:flex; align-items:center; justify-content: space-between; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--panel-border); position: sticky; top:0; background: var(--bg); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; }
+  .chip { display: inline-flex; align-items: center; gap: 10px; padding: 6px 10px; background: var(--panel); border: 2px solid var(--control-border); border-radius: 999px; }
+  .chip a { color: var(--link); text-decoration: none; display:inline-flex; align-items:center; gap:6px; }
+  .chip a:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; border-radius: 6px; }
+  .chip a .ext-icon { display:inline-flex; width:14px; height:14px; }
+  .chip a .ext-icon svg { width:14px; height:14px; stroke: currentColor; fill: none; stroke-width: 2; }
+  .circle-btn { display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:999px; background: var(--pippin-fixed); border: 2px solid var(--control-border); cursor:pointer; }
+  .circle-btn:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+  .circle-btn svg { width:22px; height:22px; stroke: var(--cobalt-fixed); fill: none; stroke-width: 2.2; }
+  .detail { padding: 12px; border-top: 1px dashed var(--panel-border); }
+  .detail h3 { margin: 0 0 8px 0; font-size: 1rem; color: var(--accent); }
+  .mains-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag, .tag-btn { background: var(--chip); border: 2px solid var(--control-border); padding: 8px 10px; border-radius: 999px; color: var(--text); min-height: 44px; }
+  .tag-btn { cursor: pointer; }
+
+  .chart-wrap { padding: 8px; }
+  .chart-empty { padding: 12px; color: var(--muted); }
+  .axis text { fill: var(--muted); }
+  .axis path, .axis line { stroke: var(--panel-border); }
+  .bar { fill: var(--accent); }
+  .bar:hover { fill: var(--link-hover); }
+  .bar-label { fill: var(--text); font-size: 12px; }
+
+  .footer { padding: 16px 20px; color: var(--muted); font-size: 1rem; border-top: 1px solid var(--panel-border); margin-top: 10px; }
+</style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="hero" role="banner">
+    <div>
+      <h1>React Aria: Component ↔ Subcomponent Explorer</h1>
+      <p>This mini one-page site visualizes how subcomponents are shared across React Aria main components. Select a component to see its subcomponents, or pick a subcomponent to highlight all components that use it. Custom components are highlighted below.</p>
+    </div>
+    <button id="themeToggle" class="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle dark mode">
+      <!-- Icon + label inserted via JS based on theme -->
+    </button>
+  </header>
+
+  <main id="main" class="container">
+    <section class="left" aria-label="Main components">
+      <div class="legend" role="note">
+        <span class="swatch std" aria-hidden="true"></span> Standard component
+        <span class="swatch custom" aria-hidden="true"></span> <strong style="color:var(--custom-text)">Custom component</strong> (Description, FieldMessage, LabeledGroup)
+      </div>
+      <div class="search">
+        <label class="small" for="compSearch">Filter components</label>
+        <input id="compSearch" type="search" placeholder="Type a component name…" />
+      </div>
+      <div id="compGrid" class="grid" role="list"></div>
+    </section>
+
+    <section class="right" aria-label="Insights">
+      <div class="panel" aria-labelledby="chartTitle">
+        <h2 id="chartTitle">Shared subcomponents</h2>
+        <p class="small">Only subcomponents used by <strong>2+ main components</strong>. Click a bar or name to highlight components that use it.</p>
+        <div class="chart-wrap">
+          <svg id="d3chart" width="100%" height="380" role="img" aria-label="Bar chart of shared subcomponents"></svg>
+          <div id="chartEmpty" class="chart-empty" hidden>No shared subcomponents to display.</div>
+        </div>
+      </div>
+      <div class="panel" aria-labelledby="detailsTitle">
+        <h2 id="detailsTitle">Details</h2>
+        <p class="small" id="detailHelp" aria-live="polite">Select a subcomponent from the chart to see all main components that include it.</p>
+        <div id="detailTags" class="mains-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="popover" class="popover" aria-modal="true" aria-labelledby="popTitle">
+    <div class="card" role="document">
+      <header>
+        <h2 id="popTitle" style="margin:0;font-size:1.1rem;"></h2>
+        <button id="closePop" aria-label="Close popover" class="theme-toggle" style="padding:8px 10px;min-height:40px;min-width:40px;">✕</button>
+      </header>
+      <div class="chips" id="subChips" aria-live="polite"></div>
+      <div class="detail" id="detailPanel" hidden>
+        <h3 id="detailTitle"></h3>
+        <div class="mains-list" id="mainsList"></div>
+      </div>
+      <div class="footer small">
+        Links go to the closest matching page under <code>react-aria/components</code>.
+      </div>
+    </div>
+  </dialog>
+
+  <footer class="footer">
+    Tip: Press <kbd>Enter</kbd> on any component card to open its subcomponents. In the chart, click a bar to reveal every main component that uses that subcomponent.
+  </footer>
+
+  <script>
+    const ICONS = {
+      sun: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" fill="currentColor"></circle>
+          <g stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="12" y1="2" x2="12" y2="5"></line>
+            <line x1="12" y1="19" x2="12" y2="22"></line>
+            <line x1="2" y1="12" x2="5" y2="12"></line>
+            <line x1="19" y1="12" x2="22" y2="12"></line>
+            <line x1="4.2" y1="4.2" x2="6.6" y2="6.6"></line>
+            <line x1="17.4" y1="17.4" x2="19.8" y2="19.8"></line>
+            <line x1="4.2" y1="19.8" x2="6.6" y2="17.4"></line>
+            <line x1="17.4" y1="6.6" x2="19.8" y2="4.2"></line>
+          </g>
+        </svg>`,
+      moon: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M21 12.8A8.5 8.5 0 0 1 11.2 3a8.8 8.8 0 1 0 9.8 9.8z" fill="currentColor"></path>
+        </svg>`,
+      grid: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7 7h4v4H7zM13 7h4v4h-4zM7 13h4v4H7zM13 13h4v4h-4z"></path>
+        </svg>`,
+      ext: `
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 3h7v7M21 3l-7 7" stroke="currentColor" fill="none" stroke-width="2" />
+          <path d="M20 13v6a2 2 0 0 1-2 2h-6" stroke="currentColor" fill="none" stroke-width="2" />
+          <path d="M3 10V6a3 3 0 0 1 3-3h4" stroke="currentColor" fill="none" stroke-width="2" />
+        </svg>`
+    };
+
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+
+    function renderThemeIcon(theme) {
+      const isDark = theme === 'dark';
+      const icon = isDark ? ICONS.moon : ICONS.sun;
+      const text = isDark ? 'Dark' : 'Light';
+      const label = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+      themeToggle.innerHTML = '<span class="icon">' + icon + '</span><span class="label">' + text + '</span>';
+      themeToggle.setAttribute('aria-label', label);
+      themeToggle.setAttribute('aria-pressed', isDark);
+      themeToggle.style.color = getComputedStyle(document.documentElement).getPropertyValue('--icon-blue').trim() || 'currentColor';
+    }
+
+    function setTheme(t) { 
+      root.setAttribute('data-theme', t); 
+      localStorage.setItem('theme', t); 
+      renderThemeIcon(t);
+    }
+
+    (function initTheme() {
+      const saved = localStorage.getItem('theme');
+      if (saved) setTheme(saved);
+      else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+      else setTheme('light');
+    })();
+
+    themeToggle.addEventListener('click', () => { 
+      themeToggle.classList.add('flipping');
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTimeout(() => setTheme(next), 120);
+      setTimeout(() => themeToggle.classList.remove('flipping'), 320);
+    });
+
+    const DATA = {"mainToSub": {"DateField": ["DateField", "DateSegment", "Datelnput", "Description", "FieldError", "FieldMessage", "Label", "Text"], "Calendar": ["Button", "Calendar", "CalendarCell", "CalendarGrid", "CalendarGridBody", "CalendarGridHeader", "CalendarHeaderCell", "Description", "Heading", "Text"], "DatePicker": ["Button", "Calendar", "CalendarCell", "CalendarGrid", "CalendarGridBody", "CalendarGridHeader", "CalendarHeaderCell", "DatePicker", "DateSegment", "Datelnput", "Description", "Dialog", "FieldError", "FieldMessage", "Group", "Label", "Popover", "Text"], "DateRangePicker": ["Button", "CalendarCell", "CalendarGrid", "CalendarGridBody", "CalendarGridHeader", "CalendarHeaderCell", "DateRangePicker", "DateSegment", "Datelnput", "Description", "Dialog", "FieldError", "FieldMessage", "Group", "Label", "Popover", "RangeCalendar", "Text"], "RangeCalendar": ["Button", "CalendarCell", "CalendarGrid", "CalendarGridBody", "CalendarGridHeader", "CalendarHeaderCell", "Description", "FieldMessage", "Heading", "RangeCalendar", "Text"], "TimeField": ["DateSegment", "Datelnput", "Description", "FieldError", "FieldMessage", "Label", "LabeledGroup", "TimeField"], "Checkbox": ["Checkbox"], "CheckboxGroup": ["Checkbox", "CheckboxGroup", "Description", "FieldError", "FieldMessage", "LabeledGroup", "Text"], "Form": ["Form"], "Text": ["Text"], "Description": ["Text"], "FieldMessage": ["Text"], "FieldError": ["FieldError"], "NumberField": ["Button", "Description", "FieldError", "FieldMessage", "Group", "Input", "Label", "NumberField", "Text"], "RadioGroup": ["Description", "FieldError", "FieldMessage", "Radio", "RadioGroup", "Text"], "SearchField": ["Button", "Description", "FieldError", "FieldMessage", "Input", "Label", "SearchField"], "Slider": ["Description", "FieldMessage", "Label", "Slider", "SliderOutput", "SliderThumb", "SliderTrack"], "TextInput": ["Description", "FieldError", "FieldMessage", "Input", "InputGroup", "Label", "LabeledGroup", "Text", "TextField"], "TextArea": ["Description", "FieldError", "FieldMessage", "Label", "Text", "TextArea", "TextField"], "Select": ["Button", "Description", "FieldError", "FieldMessage", "Header", "Label", "ListBox", "ListBoxSection", "ListBoxltem", "Popover", "Select", "SelectValue", "Separator", "Text"], "ListBox": ["Header", "ListBox", "ListBoxLoadMoreltem", "ListBoxSection", "ListBoxltem", "Separator", "Text"], "Switch": ["LabeledGroup", "Switch"], "RadioCard": ["ToggleButton", "ToggleButtonGroup"], "ToggleButton": ["ToggleButton"], "ToggleButtonGroup": ["ToggleButton", "ToggleButtonGroup"], "Button": ["Button"], "FileTrigger": ["Button", "FileTrigger"], "DropZone": ["DropZone", "FileTrigger", "Text"], "GridList": ["GridList", "GridListHeader", "GridListLoadMoreltem", "GridListSection", "GridListltem"], "Menu": ["Button", "Description", "Header", "Menu", "MenuSection", "MenuTrigger", "Menultem", "Popover", "Separator", "SubmenuTrigger", "Text"], "Table": ["Button", "Cell", "Checkbox", "Column", "ColumnResizer", "ResizableTableContainer", "Row", "Table", "TableBody", "TableHeader", "TableLoadMoreltem"], "TagGroup": ["Label", "LabeledGroup", "Tag", "TagGroup", "TagList", "Text"], "Virtualizer": ["Virtualizer"], "Tree": ["Tree", "TreeLoadMoreltem", "Treeltem", "TreeltemContent"], "Breadcrumbs": ["Breadcrumb", "Breadcrumbs", "Link"], "Accordion": ["Button", "Disclosure", "DisclosureGroup", "DisclosurePanel"], "Link": ["Link"], "ActionLink": ["Button", "Link"], "Tabs": ["Tab", "TabList", "TabPanel", "Tabs"], "Dialog": ["Button", "Dialog", "DialogTrigger", "Heading"], "Modal": ["Button", "Dialog", "DialogTrigger", "Heading", "Modal", "ModalOverlay"], "Popover": ["OverlayArrow", "Popover"], "Tooltip": ["Button", "Tooltip", "TooltipTrigger"], "Autocomplete": ["Autocomplete", "Button", "Label", "ListBox", "Menu", "MenuItem", "SearchField"], "ComboBox": ["ComboBox", "Label"], "Meter": ["Bar", "Label", "Meter"], "ProgressBar": ["Bar", "Label", "ProgressBar"], "Spinner": ["Label", "ProgressBar"], "Toast": ["Toast"], "Group": ["Group"], "Toolbar": ["Separator", "Toolbar"]}, "subToMains": {"DateField": ["DateField"], "DateSegment": ["DateField", "DatePicker", "DateRangePicker", "TimeField"], "Datelnput": ["DateField", "DatePicker", "DateRangePicker", "TimeField"], "Description": ["Calendar", "CheckboxGroup", "DateField", "DatePicker", "DateRangePicker", "Menu", "NumberField", "RadioGroup", "RangeCalendar", "SearchField", "Select", "Slider", "TextArea", "TextInput", "TimeField"], "FieldError": ["CheckboxGroup", "DateField", "DatePicker", "DateRangePicker", "FieldError", "NumberField", "RadioGroup", "SearchField", "Select", "TextArea", "TextInput", "TimeField"], "FieldMessage": ["CheckboxGroup", "DateField", "DatePicker", "DateRangePicker", "NumberField", "RadioGroup", "RangeCalendar", "SearchField", "Select", "Slider", "TextArea", "TextInput", "TimeField"], "Label": ["Autocomplete", "ComboBox", "DateField", "DatePicker", "DateRangePicker", "Meter", "NumberField", "ProgressBar", "SearchField", "Select", "Slider", "Spinner", "TagGroup", "TextArea", "TextInput", "TimeField"], "Text": ["Calendar", "CheckboxGroup", "DateField", "DatePicker", "DateRangePicker", "Description", "DropZone", "FieldMessage", "ListBox", "Menu", "NumberField", "RadioGroup", "RangeCalendar", "Select", "TagGroup", "Text", "TextArea", "TextInput"], "Button": ["Accordion", "ActionLink", "Autocomplete", "Button", "Calendar", "DatePicker", "DateRangePicker", "Dialog", "FileTrigger", "Menu", "Modal", "NumberField", "RangeCalendar", "SearchField", "Select", "Table", "Tooltip"], "Calendar": ["Calendar", "DatePicker"], "CalendarCell": ["Calendar", "DatePicker", "DateRangePicker", "RangeCalendar"], "CalendarGrid": ["Calendar", "DatePicker", "DateRangePicker", "RangeCalendar"], "CalendarGridBody": ["Calendar", "DatePicker", "DateRangePicker", "RangeCalendar"], "CalendarGridHeader": ["Calendar", "DatePicker", "DateRangePicker", "RangeCalendar"], "CalendarHeaderCell": ["Calendar", "DatePicker", "DateRangePicker", "RangeCalendar"], "Heading": ["Calendar", "Dialog", "Modal", "RangeCalendar"], "DatePicker": ["DatePicker"], "Dialog": ["DatePicker", "DateRangePicker", "Dialog", "Modal"], "Group": ["DatePicker", "DateRangePicker", "Group", "NumberField"], "Popover": ["DatePicker", "DateRangePicker", "Menu", "Popover", "Select"], "DateRangePicker": ["DateRangePicker"], "RangeCalendar": ["DateRangePicker", "RangeCalendar"], "LabeledGroup": ["CheckboxGroup", "Switch", "TagGroup", "TextInput", "TimeField"], "TimeField": ["TimeField"], "Checkbox": ["Checkbox", "CheckboxGroup", "Table"], "CheckboxGroup": ["CheckboxGroup"], "Form": ["Form"], "Input": ["NumberField", "SearchField", "TextInput"], "NumberField": ["NumberField"], "Radio": ["RadioGroup"], "RadioGroup": ["RadioGroup"], "SearchField": ["Autocomplete", "SearchField"], "Slider": ["Slider"], "SliderOutput": ["Slider"], "SliderThumb": ["Slider"], "SliderTrack": ["Slider"], "InputGroup": ["TextInput"], "TextField": ["TextArea", "TextInput"], "TextArea": ["TextArea"], "Header": ["ListBox", "Menu", "Select"], "ListBox": ["Autocomplete", "ListBox", "Select"], "ListBoxSection": ["ListBox", "Select"], "ListBoxltem": ["ListBox", "Select"], "Select": ["Select"], "SelectValue": ["Select"], "Separator": ["ListBox", "Menu", "Select", "Toolbar"], "ListBoxLoadMoreltem": ["ListBox"], "Switch": ["Switch"], "ToggleButton": ["RadioCard", "ToggleButton", "ToggleButtonGroup"], "ToggleButtonGroup": ["RadioCard", "ToggleButtonGroup"], "FileTrigger": ["DropZone", "FileTrigger"], "DropZone": ["DropZone"], "GridList": ["GridList"], "GridListHeader": ["GridList"], "GridListLoadMoreltem": ["GridList"], "GridListSection": ["GridList"], "GridListltem": ["GridList"], "Menu": ["Autocomplete", "Menu"], "MenuSection": ["Menu"], "MenuTrigger": ["Menu"], "Menultem": ["Menu"], "SubmenuTrigger": ["Menu"], "Cell": ["Table"], "Column": ["Table"], "ColumnResizer": ["Table"], "ResizableTableContainer": ["Table"], "Row": ["Table"], "Table": ["Table"], "TableBody": ["Table"], "TableHeader": ["Table"], "TableLoadMoreltem": ["Table"], "Tag": ["TagGroup"], "TagGroup": ["TagGroup"], "TagList": ["TagGroup"], "Virtualizer": ["Virtualizer"], "Tree": ["Tree"], "TreeLoadMoreltem": ["Tree"], "Treeltem": ["Tree"], "TreeltemContent": ["Tree"], "Breadcrumb": ["Breadcrumbs"], "Breadcrumbs": ["Breadcrumbs"], "Link": ["ActionLink", "Breadcrumbs", "Link"], "Disclosure": ["Accordion"], "DisclosureGroup": ["Accordion"], "DisclosurePanel": ["Accordion"], "Tab": ["Tabs"], "TabList": ["Tabs"], "TabPanel": ["Tabs"], "Tabs": ["Tabs"], "DialogTrigger": ["Dialog", "Modal"], "Modal": ["Modal"], "ModalOverlay": ["Modal"], "OverlayArrow": ["Popover"], "Tooltip": ["Tooltip"], "TooltipTrigger": ["Tooltip"], "Autocomplete": ["Autocomplete"], "MenuItem": ["Autocomplete"], "ComboBox": ["ComboBox"], "Bar": ["Meter", "ProgressBar"], "Meter": ["Meter"], "ProgressBar": ["ProgressBar", "Spinner"], "Toast": ["Toast"], "Toolbar": ["Toolbar"]}};
+    const CUSTOMS = new Set(["Description", "FieldMessage", "LabeledGroup"]);
+    const BASE = "https://react-spectrum.adobe.com/react-aria/components/";
+    const slugify = (s) => s
+      .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+      .toLowerCase()
+      .replace(/\s*&\s*/g, ' ')
+      .replace(/[\/]+/g,' ')
+      .trim()
+      .replace(/\s+/g,'-');
+
+    const mains = Object.keys(DATA.mainToSub).sort((a,b)=>a.localeCompare(b));
+    const subToMains = DATA.subToMains;
+
+    function docHrefForSub(sub, contextMain) {
+      const hasOwnPage = Object.prototype.hasOwnProperty.call(DATA.mainToSub, sub);
+      const parents = subToMains[sub] || [];
+      const parent = hasOwnPage ? sub : (parents.includes(contextMain) ? contextMain : (parents[0] || contextMain || sub));
+      return BASE + slugify(parent) + ".html";
+    }
+
+    // Elements
+    const grid = document.getElementById('compGrid');
+    const search = document.getElementById('compSearch');
+    const pop = document.getElementById('popover');
+    const popTitle = document.getElementById('popTitle');
+    const subChips = document.getElementById('subChips');
+    const detail = document.getElementById('detailPanel');
+    const detailTitle = document.getElementById('detailTitle');
+    const mainsList = document.getElementById('mainsList');
+    const closePop = document.getElementById('closePop');
+    const detailTags = document.getElementById('detailTags');
+    const detailHelp = document.getElementById('detailHelp');
+    const svg = document.getElementById('d3chart');
+    const chartEmpty = document.getElementById('chartEmpty');
+
+    let lastTrigger = null;
+
+    function focusGridButtonByName(name) {
+      for (const b of grid.querySelectorAll('.comp-btn')) {
+        const n = b.querySelector('strong').textContent;
+        const selected = (n === name);
+        b.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        b.style.boxShadow = selected ? 'inset 0 0 0 3px var(--accent)' : 'none';
+        if (selected) b.scrollIntoView({block:'nearest', behavior:'smooth'});
+      }
+    }
+
+    function renderGrid(filter="") {
+      grid.innerHTML = "";
+      const q = filter.trim().toLowerCase();
+      const list = mains.filter(m => m.toLowerCase().includes(q));
+      for (const m of list) {
+        const btn = document.createElement('button');
+        const isCustom = CUSTOMS.has(m);
+        btn.className = 'comp-btn' + (isCustom ? ' custom' : '');
+        btn.setAttribute('role', 'listitem');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.innerHTML = `<strong>${m}</strong><br/><span class="small">${DATA.mainToSub[m].length} subcomponents</span>`;
+        btn.addEventListener('click', (e) => { lastTrigger = e.currentTarget; openPopover(m, e.currentTarget); });
+        btn.addEventListener('keydown', (e) => { if (e.key === "Enter") { lastTrigger = e.currentTarget; openPopover(m, e.currentTarget); } });
+        grid.appendChild(btn);
+      }
+    }
+
+    function openPopover(mainName, btn) {
+      for (const b of grid.querySelectorAll('.comp-btn')) b.setAttribute('aria-pressed','false');
+      if (btn) btn.setAttribute('aria-pressed','true');
+      popTitle.textContent = mainName;
+      subChips.innerHTML = "";
+      detail.hidden = true;
+      const subs = DATA.mainToSub[mainName] || [];
+      for (const s of subs) {
+        const chip = document.createElement('span');
+        chip.className = 'chip';
+
+        const a = document.createElement('a');
+        a.href = docHrefForSub(s, mainName);
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.textContent = s;
+
+        // external link icon inside the anchor
+        const ext = document.createElement('span');
+        ext.className = 'ext-icon';
+        ext.setAttribute('title', 'opens in a new tab');
+        ext.setAttribute('aria-label', 'opens in a new tab');
+        ext.innerHTML = ICONS.ext;
+        a.appendChild(ext);
+
+        const btnSel = document.createElement('button');
+        btnSel.type = "button";
+        btnSel.className = "circle-btn";
+        btnSel.title = "Show all main components that use this subcomponent";
+        btnSel.setAttribute('aria-label', `Show all main components that use ${s}`);
+        btnSel.innerHTML = ICONS.grid;
+        btnSel.addEventListener('click', () => showSubDetail(s));
+
+        chip.appendChild(a);
+        chip.appendChild(btnSel);
+        subChips.appendChild(chip);
+      }
+      try { pop.showModal(); } catch (e) { pop.setAttribute('open',''); }
+      pop.addEventListener('cancel', (e) => { e.preventDefault(); closeDialog(); });
+      pop.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDialog(); });
+      focusGridButtonByName(mainName);
+    }
+
+    function closeDialog() {
+      pop.close?.(); pop.removeAttribute('open');
+      for (const b of grid.querySelectorAll('.comp-btn')) b.style.boxShadow = 'none';
+      if (lastTrigger) lastTrigger.focus();
+    }
+
+    function showSubDetail(sub) {
+      detail.hidden = false;
+      detailTitle.textContent = `“${sub}” is used by:`;
+      mainsList.innerHTML = "";
+      const list = (subToMains[sub] || []).slice().sort((a,b)=>a.localeCompare(b));
+      for (const m of list) {
+        const btn = document.createElement('button');
+        btn.className = 'tag-btn';
+        btn.textContent = m; btn.title = 'Open component'; btn.setAttribute('aria-label', `Open ${m}`);
+        btn.addEventListener('click', () => { openPopover(m); });
+        mainsList.appendChild(btn);
+      }
+      for (const b of grid.querySelectorAll('.comp-btn')) {
+        const name = b.querySelector('strong').textContent;
+        if (list.includes(name)) b.style.boxShadow = 'inset 0 0 0 3px var(--accent)';
+        else b.style.boxShadow = 'none';
+      }
+      detailHelp.textContent = `“${sub}” appears in ${list.length} main components:`;
+      detailTags.innerHTML = "";
+      list.forEach(m => {
+        const t = document.createElement('button');
+        t.className = 'tag-btn'; t.textContent = m; t.setAttribute('aria-label', `Open ${m}`);
+        t.addEventListener('click', () => openPopover(m));
+        detailTags.appendChild(t);
+      });
+    }
+
+    document.getElementById('closePop').addEventListener('click', closeDialog);
+    document.getElementById('popover').addEventListener('click', (e) => { if (e.target === pop) closeDialog(); });
+    document.getElementById('compSearch').addEventListener('input', (e)=> renderGrid(e.target.value));
+
+    // D3 Chart (with robust sizing) – fix booleans
+    const entries = Object.entries(subToMains).filter(([s, arr]) => (arr?.length || 0) > 1);
+    entries.sort((a,b)=> b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+    function containerWidth(el) {
+      const bb = el.getBoundingClientRect();
+      return Math.max(700, Math.floor(bb.width));
+    }
+
+    function renderChart() {
+      const svgEl = document.getElementById('d3chart');
+      const svgSel = d3.select(svgEl);
+      const width = containerWidth(svgEl);
+      const height = parseInt(svgEl.getAttribute("height")) || 380;
+      svgSel.selectAll("*").remove();
+
+      if (entries.length === 0) { document.getElementById('chartEmpty').hidden = false; return; } else { document.getElementById('chartEmpty').hidden = true; }
+
+      const margin = {top: 20, right: 20, bottom: 100, left: 60};
+      const innerW = width - margin.left - margin.right;
+      const innerH = height - margin.top - margin.bottom;
+
+      svgEl.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+      const data = entries.map(d => ({ name: d[0], count: d[1].length }));
+
+      const x = d3.scaleBand().domain(data.map(d=>d.name)).range([margin.left, margin.left + innerW]).padding(0.2);
+      const y = d3.scaleLinear().domain([0, d3.max(data, d=>d.count)]).nice().range([margin.top + innerH, margin.top]);
+
+      svgSel.append("g").attr("class","axis x").attr("transform", `translate(0, ${margin.top + innerH})`)
+        .call(d3.axisBottom(x))
+        .selectAll("text").attr("transform", "rotate(-40)").style("text-anchor", "end");
+
+      svgSel.append("g").attr("class","axis y").attr("transform", `translate(${margin.left}, 0)`)
+        .call(d3.axisLeft(y).ticks(5).tickFormat(d3.format("d")));
+
+      svgSel.selectAll(".bar").data(data).enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", d=>x(d.name))
+        .attr("y", d=>y(d.count))
+        .attr("width", x.bandwidth())
+        .attr("height", d=> (margin.top + innerH) - y(d.count))
+        .style("cursor","pointer")
+        .on("click", (ev, d) => showSubDetail(d.name));
+
+      svgSel.selectAll(".bar-label").data(data).enter().append("text")
+        .attr("class", "bar-label")
+        .attr("x", d=>x(d.name) + x.bandwidth()/2)
+        .attr("y", d=>y(d.count) - 6)
+        .attr("text-anchor","middle")
+        .text(d=>d.count);
+    }
+
+    const ro = new ResizeObserver(() => renderChart());
+    ro.observe(document.querySelector('.chart-wrap'));
+
+    renderGrid();
+    renderChart();
+    setTimeout(renderChart, 120);
+  </script>
+</body>
+</html>
