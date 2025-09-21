@@ -1,0 +1,41 @@
+image: node:20
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+stages:
+  - build
+  - deploy
+
+variables:
+  # Make Vite generate correct asset URLs under GitLab Pages.
+  # Vite accepts a full URL for base, so we pass CI_PAGES_URL (e.g., https://group.gitlab.io/project)
+  VITE_BASE: "${CI_PAGES_URL}/"
+
+build:
+  stage: build
+  script:
+    - npm ci
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH'
+
+pages:
+  stage: deploy
+  needs: ["build"]
+  script:
+    # Move the Vite build output to `public/` for GitLab Pages to publish.
+    - rm -rf public || true
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+  rules:
+    # Deploy only from the default branch to Pages
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
